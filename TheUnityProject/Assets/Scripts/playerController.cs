@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public class playerController : MonoBehaviour
 {
@@ -13,6 +15,9 @@ public class playerController : MonoBehaviour
 
     private float x;
     private float y;
+    private float hypo;
+    private float angle;
+    private float lastAngle;
 
     // Start is called before the first frame update
     void Start()
@@ -25,11 +30,25 @@ public class playerController : MonoBehaviour
     {
         x = Input.GetAxis("Horizontal");
         y = Input.GetAxis("Vertical");
+        hypo = MathF.Sqrt(x*x+y*y);
+        angle = (Mathf.Acos(x / hypo)*180)/MathF.PI;
+       
+        if (y < 0)
+        {
+            angle *= -1;
+        }
+        if (!(x == 0 && y == 0))
+        {
+            lastAngle = angle;
+        }
+        transform.rotation = Quaternion.Euler(0, lastAngle, 0);
+        Debug.Log(lastAngle);
         
     }
 
     private void FixedUpdate()
     {
         rb.velocity = new Vector3(playerSpeed * x, 0, playerSpeed * y);
+        
     }
 }
