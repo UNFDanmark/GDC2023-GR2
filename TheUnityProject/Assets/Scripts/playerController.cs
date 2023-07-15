@@ -41,9 +41,7 @@ public class playerController : MonoBehaviour
         {
             lastAngle = angle;
         }
-        transform.rotation = Quaternion.Euler(0, lastAngle, 0);
-        Debug.Log(lastAngle);
-        
+        transform.rotation = Quaternion.Euler(0, lastAngle, 0);        
     }
 
     private void FixedUpdate()
