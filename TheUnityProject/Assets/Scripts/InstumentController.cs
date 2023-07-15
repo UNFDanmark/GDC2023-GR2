@@ -11,6 +11,8 @@ public class InstumentController : MonoBehaviour
 
     [SerializeField]
     Color[] colors;
+
+    List<int> latestNotes;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,11 +22,20 @@ public class InstumentController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        NoteInput();
+    }
+
+    void NoteInput() {
         if (Input.GetKeyDown("u"))
         {
             images[0].color = colors[0];
-        } 
-        if (Input.GetKeyUp("u")){ images[0].color = Color.white; }
+            latestNotes.Add(0);
+            if(latestNotes.Count > 3)
+            {
+                Debug.Log("agfpiewhf");
+            }
+        }
+        if (Input.GetKeyUp("u")) { images[0].color = Color.white; }
 
         if (Input.GetKeyDown("i"))
         {
@@ -62,10 +73,10 @@ public class InstumentController : MonoBehaviour
         }
         if (Input.GetKeyUp("l")) { images[6].color = Color.white; }
 
-        if (Input.GetKeyDown(KeyCode.Semicolon)){
+        if (Input.GetKeyDown(KeyCode.Semicolon))
+        {
             images[7].color = colors[7];
         }
         if (Input.GetKeyUp(KeyCode.Semicolon)) { images[7].color = Color.white; }
-
     }
 }
