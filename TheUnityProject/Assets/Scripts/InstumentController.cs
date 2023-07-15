@@ -1,8 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
+
+[Serializable]
+public class PreDefinedChords
+{
+    public List<int> integerList;
+}
 
 public class InstumentController : MonoBehaviour
 {
@@ -18,7 +26,7 @@ public class InstumentController : MonoBehaviour
 
     float timeLeft;
 
-    public List<int>[] AvailableChords;
+    public List<PreDefinedChords> chordDefinitions;
     public List<int> latestNotes = new List<int>();
     
     void NoteInput() {
