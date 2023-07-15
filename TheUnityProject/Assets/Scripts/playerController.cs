@@ -33,7 +33,7 @@ public class playerController : MonoBehaviour
         hypo = MathF.Sqrt(x*x+y*y);
         angle = (Mathf.Acos(x / hypo)*180)/MathF.PI;
        
-        if (y < 0)
+        if (y > 0)
         {
             angle *= -1;
         }
@@ -48,7 +48,7 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector3(playerSpeed * x, 0, playerSpeed * y);
+        rb.velocity = new Vector3(x, 0 ,y).normalized * playerSpeed;
         
     }
 }
