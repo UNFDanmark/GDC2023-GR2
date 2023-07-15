@@ -14,7 +14,7 @@ public class PreDefinedChords
 
 public class InstumentController : MonoBehaviour
 {
-
+    [SerializeField] private playerController player;
     [SerializeField]
     Image[] images;
 
@@ -28,7 +28,10 @@ public class InstumentController : MonoBehaviour
 
     public List<PreDefinedChords> chordDefinitions;
     public List<int> latestNotes = new List<int>();
-    
+
+    public List<int> enemyMelody;
+    public List<float> enemyRhythm;
+
     void NoteInput() {
         timeLeft -= Time.deltaTime;
         if (timeLeft <= 0)
@@ -105,7 +108,33 @@ public class InstumentController : MonoBehaviour
     }
 
     void ChordCheck() {
-    
+        try
+        {
+            int j = 0;
+            foreach (var chord in chordDefinitions)
+            {
+                int i = 0;
+                foreach (var note in chord.integerList)
+                {
+                    if (note != latestNotes[i])
+                    {
+                        break;
+                    }
+
+                    if (i == chord.integerList.Count - 1)
+                    {
+                        player.pendingAction = (ActionType)j+1;
+                    }
+                    i++;
+                }
+                timeLeft = 0;
+            }
+            j++;
+        }
+        catch (Exception e)
+        {
+            ;
+        }
     }
 
     void Update()

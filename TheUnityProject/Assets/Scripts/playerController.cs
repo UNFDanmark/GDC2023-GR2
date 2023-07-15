@@ -3,11 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ActionType
+{
+    nothing,
+    fireball,
+    healing,
+    damage
+}
 
 public class playerController : MonoBehaviour
 {
     
-
+    
     [SerializeField]
     private float playerSpeed;
     [SerializeField]
@@ -18,6 +25,8 @@ public class playerController : MonoBehaviour
     private float hypo;
     private float angle;
     private float lastAngle;
+
+    public ActionType pendingAction;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +50,16 @@ public class playerController : MonoBehaviour
         {
             lastAngle = angle;
         }
-        transform.rotation = Quaternion.Euler(0, lastAngle, 0);        
+        transform.rotation = Quaternion.Euler(0, lastAngle, 0);
+
+        if (pendingAction == ActionType.nothing)
+        {
+            ;
+        } else if (pendingAction == ActionType.fireball)
+        {
+            print("fuha");
+            pendingAction = ActionType.nothing;
+        }
     }
 
     private void FixedUpdate()
