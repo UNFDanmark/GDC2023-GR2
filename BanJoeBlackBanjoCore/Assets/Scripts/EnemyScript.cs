@@ -12,7 +12,10 @@ public class EnemyScript : MonoBehaviour
     
     [SerializeField] private Transform player;
     [SerializeField] private float encounterDistance;
+    [SerializeField] private float stopDistance;
     [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private Transform oneDirection;
+    [SerializeField] private LayerMask layerMask;
 
     private bool hasDoneIt = false;
     
@@ -37,6 +40,18 @@ public class EnemyScript : MonoBehaviour
         }
 
         agent.SetDestination(player.position);
+        print(agent.destination);
+        
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, stopDistance, layerMask))
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.Log("heaofjoiuewsrgf");
+        }else
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
+            Debug.Log("Did not Hit");
+        }
     }
 
     void Befriending()

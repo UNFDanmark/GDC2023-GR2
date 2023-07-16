@@ -24,6 +24,8 @@ public class InstumentController : MonoBehaviour
     [SerializeField]
     float cooldownTime;
 
+    [SerializeField] private ParticleSystem particle;
+
     float timeLeft;
     
     
@@ -44,6 +46,8 @@ public class InstumentController : MonoBehaviour
         {
             images[0].color = colors[0];
             AddToList(0);
+            particle.startColor = colors[0];
+            particle.Play();
         }
         if (Input.GetKeyUp("u")) { images[0].color = Color.white; }
 
@@ -51,6 +55,8 @@ public class InstumentController : MonoBehaviour
         {
             images[1].color = colors[1];
             AddToList(1);
+            particle.startColor = colors[1];
+            particle.Play();
         }
         if (Input.GetKeyUp("i")) { images[1].color = Color.white; }
 
@@ -58,6 +64,8 @@ public class InstumentController : MonoBehaviour
         {
             images[2].color = colors[2];
             AddToList(2);
+            particle.startColor = colors[2];
+            particle.Play();
         }
         if (Input.GetKeyUp("o")) { images[2].color = Color.white; }
 
@@ -65,6 +73,8 @@ public class InstumentController : MonoBehaviour
         {
             images[3].color = colors[3];
             AddToList(3);
+            particle.startColor = colors[3];
+            particle.Play();
         }
         if (Input.GetKeyUp("p")) { images[3].color = Color.white; }
 
@@ -72,6 +82,8 @@ public class InstumentController : MonoBehaviour
         {
             images[4].color = colors[4];
             AddToList(4);
+            particle.startColor = colors[4];
+            particle.Play();
         }
         if (Input.GetKeyUp("j")) { images[4].color = Color.white; }
 
@@ -79,6 +91,8 @@ public class InstumentController : MonoBehaviour
         {
             images[5].color = colors[5];
             AddToList(5);
+            particle.startColor = colors[5];
+            particle.Play();
         }
         if (Input.GetKeyUp("k")) { images[5].color = Color.white; }
 
@@ -86,6 +100,8 @@ public class InstumentController : MonoBehaviour
         {
             images[6].color = colors[6];
             AddToList(6);
+            particle.startColor = colors[6];
+            particle.Play();
         }
         if (Input.GetKeyUp("l")) { images[6].color = Color.white; }
 
@@ -93,6 +109,8 @@ public class InstumentController : MonoBehaviour
         {
             images[7].color = colors[7];
             AddToList(7);
+            particle.startColor = colors[7];
+            particle.Play();
         }
         if (Input.GetKeyUp(KeyCode.Semicolon)) { images[7].color = Color.white; }
 
