@@ -24,13 +24,18 @@ public class InstumentController : MonoBehaviour
     [SerializeField]
     float cooldownTime;
 
-    [SerializeField] private ParticleSystem particle;
+    [SerializeField] 
+    private ParticleSystem particle;
+    
+    [SerializeField]
+    private List<int> banjoSFX = new List<int>();
 
     float timeLeft;
     
     
     public List<PreDefinedNotes> chordDefinitions;
     public List<int> latestNotes = new List<int>();
+    
 
     public List<PreDefinedNotes> enemyMelody;
     public List<GameObject> enemyGameObjects;
@@ -48,6 +53,7 @@ public class InstumentController : MonoBehaviour
             AddToList(0);
             particle.startColor = colors[0];
             particle.Play();
+            //AudioSource.PlayClipAtPoint(banjoSFX[0],transform.position);
         }
         if (Input.GetKeyUp("u")) { images[0].color = Color.white; }
 
