@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class EnemyScript : MonoBehaviour
     
     [SerializeField] private Transform player;
     [SerializeField] private float encounterDistance;
+    [SerializeField] private NavMeshAgent agent;
 
     private bool hasDoneIt = false;
     
@@ -33,6 +35,8 @@ public class EnemyScript : MonoBehaviour
                 hasDoneIt = true;
             }
         }
+
+        agent.SetDestination(player.position);
     }
 
     void Befriending()
