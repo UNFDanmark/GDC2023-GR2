@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
-public class PreDefinedChords
+public class PreDefinedNotes
 {
     public List<int> integerList;
 }
@@ -25,12 +25,14 @@ public class InstumentController : MonoBehaviour
     float cooldownTime;
 
     float timeLeft;
-
-    public List<PreDefinedChords> chordDefinitions;
+    
+    
+    public List<PreDefinedNotes> chordDefinitions;
     public List<int> latestNotes = new List<int>();
 
-    public List<int> enemyMelody;
-    public List<float> enemyRhythm;
+    public List<PreDefinedNotes> enemyMelody;
+    public List<GameObject> enemyGameObjects;
+
 
     void NoteInput() {
         timeLeft -= Time.deltaTime;
@@ -95,11 +97,12 @@ public class InstumentController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Semicolon)) { images[7].color = Color.white; }
 
         if (Input.GetKeyDown(KeyCode.RightShift)) { ChordCheck(); }
+        if (Input.GetKeyDown(KeyCode.RightControl)){MelodyCheck();}
     }
     void AddToList(int i)
     {
         latestNotes.Add(i);
-        if (latestNotes.Count > 3)
+        if (latestNotes.Count > 7)
         {
             latestNotes.RemoveAt(0);
         }
@@ -135,6 +138,35 @@ public class InstumentController : MonoBehaviour
         {
             ;
         }
+    }
+
+    void MelodyCheck()
+    {
+        int j = 0;
+        foreach (var melody in enemyMelody)
+        {
+            int i = 0;
+            foreach (var note in melody.integerList)
+            {
+                if (note != latestNotes[i])
+                {
+                    break;
+                }
+
+                if (i == enemyMelody.Count-1)
+                {
+                    print("yeay");
+                }
+
+                i++;
+            }
+
+            timeLeft = 0;
+        }
+
+        j++;
+
+
     }
 
     void Update()
