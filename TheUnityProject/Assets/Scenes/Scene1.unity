@@ -1055,6 +1055,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   melody: 00000000000000000000000000000000
   rhythm: []
+  player: {fileID: 2060595719}
+  encounterDistance: 10
 --- !u!1 &981360347
 GameObject:
   m_ObjectHideFlags: 0
@@ -2630,3 +2632,5 @@ MonoBehaviour:
   - integerList: 000000000200000004000000
   - integerList: 050000000700000002000000
   latestNotes: 
+  enemyMelody: 
+  enemyRhythm: []
