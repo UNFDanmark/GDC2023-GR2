@@ -30,10 +30,27 @@ public class InstumentController : MonoBehaviour
     [SerializeField]
     private List<AudioClip> banjoSFX = new List<AudioClip>();
 
-    [SerializeField]
+    [SerializeField] 
     private AudioSource audioSource;
+    
+    [SerializeField]
+    private AudioSource audioSourceTemp;
 
+    [SerializeField] 
+    private float BPM;
+
+    [SerializeField] 
+    private float pulseDeltaTime;
+    
+    [SerializeField] 
+    private float clock;
+
+    [SerializeField] 
+    private float inputLeniency;
+
+    [SerializeField] private Animator heartPulse;
     float timeLeft;
+    
     
     
     public List<PreDefinedNotes> chordDefinitions;
@@ -44,12 +61,30 @@ public class InstumentController : MonoBehaviour
     public List<GameObject> enemyGameObjects;
 
 
-    void NoteInput() {
+    void Start()
+    {
+        pulseDeltaTime = 60 / BPM;
+
+    }
+
+    private void Awake()
+    {
+        AnimationClip heartAnimation = heartPulse.runtimeAnimatorController.animationClips[0];
+        //heartAnimation.frameRate = 60;
+
+        heartPulse.speed = BPM/60;
+    }
+
+    void NoteInput(bool pulse)
+    { 
+    if(pulse)
+    {
         timeLeft -= Time.deltaTime;
         if (timeLeft <= 0)
         {
             latestNotes.Clear();
         }
+
         if (Input.GetKeyDown("u"))
         {
             images[0].color = colors[0];
@@ -59,9 +94,7 @@ public class InstumentController : MonoBehaviour
             audioSource.clip = banjoSFX[0];
             audioSource.Play();
         }
-        if (Input.GetKeyUp("u")) { images[0].color = Color.white; }
-
-        if (Input.GetKeyDown("i"))
+        else if (Input.GetKeyDown("i"))
         {
             images[1].color = colors[1];
             AddToList(1);
@@ -70,9 +103,7 @@ public class InstumentController : MonoBehaviour
             audioSource.clip = banjoSFX[1];
             audioSource.Play();
         }
-        if (Input.GetKeyUp("i")) { images[1].color = Color.white; }
-
-        if (Input.GetKeyDown("o"))
+        else if (Input.GetKeyDown("o"))
         {
             images[2].color = colors[2];
             AddToList(2);
@@ -81,9 +112,7 @@ public class InstumentController : MonoBehaviour
             audioSource.clip = banjoSFX[2];
             audioSource.Play();
         }
-        if (Input.GetKeyUp("o")) { images[2].color = Color.white; }
-
-        if (Input.GetKeyDown("p"))
+        else if (Input.GetKeyDown("p"))
         {
             images[3].color = colors[3];
             AddToList(3);
@@ -92,9 +121,7 @@ public class InstumentController : MonoBehaviour
             audioSource.clip = banjoSFX[3];
             audioSource.Play();
         }
-        if (Input.GetKeyUp("p")) { images[3].color = Color.white; }
-
-        if (Input.GetKeyDown("j"))
+        else if (Input.GetKeyDown("j"))
         {
             images[4].color = colors[4];
             AddToList(4);
@@ -103,9 +130,7 @@ public class InstumentController : MonoBehaviour
             audioSource.clip = banjoSFX[4];
             audioSource.Play();
         }
-        if (Input.GetKeyUp("j")) { images[4].color = Color.white; }
-
-        if (Input.GetKeyDown("k"))
+        else if (Input.GetKeyDown("k"))
         {
             images[5].color = colors[5];
             AddToList(5);
@@ -114,9 +139,7 @@ public class InstumentController : MonoBehaviour
             audioSource.clip = banjoSFX[5];
             audioSource.Play();
         }
-        if (Input.GetKeyUp("k")) { images[5].color = Color.white; }
-
-        if (Input.GetKeyDown("l"))
+        else if (Input.GetKeyDown("l"))
         {
             images[6].color = colors[6];
             AddToList(6);
@@ -125,9 +148,7 @@ public class InstumentController : MonoBehaviour
             audioSource.clip = banjoSFX[6];
             audioSource.Play();
         }
-        if (Input.GetKeyUp("l")) { images[6].color = Color.white; }
-
-        if (Input.GetKeyDown(KeyCode.Semicolon))
+        else if (Input.GetKeyDown(KeyCode.Semicolon))
         {
             images[7].color = colors[7];
             AddToList(7);
@@ -136,7 +157,17 @@ public class InstumentController : MonoBehaviour
             audioSource.clip = banjoSFX[7];
             audioSource.Play();
         }
+    }
+
+    if (Input.GetKeyUp("u")) { images[0].color = Color.white; }
+        if (Input.GetKeyUp("i")) { images[1].color = Color.white; }
+        if (Input.GetKeyUp("o")) { images[2].color = Color.white; }
+        if (Input.GetKeyUp("p")) { images[3].color = Color.white; }
+        if (Input.GetKeyUp("j")) { images[4].color = Color.white; }
+        if (Input.GetKeyUp("k")) { images[5].color = Color.white; }
+        if (Input.GetKeyUp("l")) { images[6].color = Color.white; }
         if (Input.GetKeyUp(KeyCode.Semicolon)) { images[7].color = Color.white; }
+        
 
         if (Input.GetKeyDown(KeyCode.RightShift)) { ChordCheck(); }
         if (Input.GetKeyDown(KeyCode.RightControl)){MelodyCheck();}
@@ -165,7 +196,6 @@ public class InstumentController : MonoBehaviour
                     {
                         break;
                     }
-
                     if (i == chord.integerList.Count - 1)
                     {
                         player.pendingAction = (ActionType)j+1;
@@ -194,7 +224,6 @@ public class InstumentController : MonoBehaviour
                 {
                     break;
                 }
-
                 if (i == enemyMelody.Count-1)
                 {
                     print("yeay");
@@ -211,9 +240,23 @@ public class InstumentController : MonoBehaviour
 
     }
 
+    bool Pulse()
+    {
+        clock += Time.deltaTime;
+        if (clock%pulseDeltaTime < 0+(inputLeniency/2)*pulseDeltaTime || clock%pulseDeltaTime > pulseDeltaTime-(inputLeniency/2)*pulseDeltaTime )
+        {
+            if (clock%pulseDeltaTime < 0+(0.05/2)*pulseDeltaTime || clock%pulseDeltaTime > pulseDeltaTime-(0.05/2)*pulseDeltaTime )
+            {
+                audioSourceTemp.Play();
+            }
+            return true;
+        }
+        return false;
+    }
+
     void Update()
     {
-        NoteInput();
+        NoteInput(Pulse());
     }
 
 }
