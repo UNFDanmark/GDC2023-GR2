@@ -8652,7 +8652,16 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 1, a: 1}
   cooldownTime: 2
   particle: {fileID: 2004084056}
-  banjoSFX: 00000000
+  banjoSFX:
+  - {fileID: 8300000, guid: c7a95478bb0587f4a82686f21b71e5d6, type: 3}
+  - {fileID: 8300000, guid: 6efbaf894abe87443a5fff9b2dbc3edd, type: 3}
+  - {fileID: 8300000, guid: ba3541123c62da34c965adb895963b1b, type: 3}
+  - {fileID: 8300000, guid: b8c368e0cc9ba8642aa523b407e125bb, type: 3}
+  - {fileID: 8300000, guid: fa0a4f11768906f4b84e4a71931fcc03, type: 3}
+  - {fileID: 8300000, guid: 80900b62794ad93489c0435202a66a88, type: 3}
+  - {fileID: 8300000, guid: 84536ee18ffd43144823c046f82ad828, type: 3}
+  - {fileID: 8300000, guid: 62042821a0d986248b96e9f29a331df8, type: 3}
+  audioSource: {fileID: 2060595722}
   chordDefinitions:
   - integerList: 0000000004000000
   - integerList: 000000000200000004000000
@@ -8670,8 +8679,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: c7a95478bb0587f4a82686f21b71e5d6, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

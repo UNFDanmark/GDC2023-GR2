@@ -28,7 +28,10 @@ public class InstumentController : MonoBehaviour
     private ParticleSystem particle;
     
     [SerializeField]
-    private List<int> banjoSFX = new List<int>();
+    private List<AudioClip> banjoSFX = new List<AudioClip>();
+
+    [SerializeField]
+    private AudioSource audioSource;
 
     float timeLeft;
     
@@ -53,7 +56,8 @@ public class InstumentController : MonoBehaviour
             AddToList(0);
             particle.startColor = colors[0];
             particle.Play();
-            //AudioSource.PlayClipAtPoint(banjoSFX[0],transform.position);
+            audioSource.clip = banjoSFX[0];
+            audioSource.Play();
         }
         if (Input.GetKeyUp("u")) { images[0].color = Color.white; }
 
@@ -63,6 +67,8 @@ public class InstumentController : MonoBehaviour
             AddToList(1);
             particle.startColor = colors[1];
             particle.Play();
+            audioSource.clip = banjoSFX[1];
+            audioSource.Play();
         }
         if (Input.GetKeyUp("i")) { images[1].color = Color.white; }
 
@@ -72,6 +78,8 @@ public class InstumentController : MonoBehaviour
             AddToList(2);
             particle.startColor = colors[2];
             particle.Play();
+            audioSource.clip = banjoSFX[2];
+            audioSource.Play();
         }
         if (Input.GetKeyUp("o")) { images[2].color = Color.white; }
 
@@ -81,6 +89,8 @@ public class InstumentController : MonoBehaviour
             AddToList(3);
             particle.startColor = colors[3];
             particle.Play();
+            audioSource.clip = banjoSFX[3];
+            audioSource.Play();
         }
         if (Input.GetKeyUp("p")) { images[3].color = Color.white; }
 
@@ -90,6 +100,8 @@ public class InstumentController : MonoBehaviour
             AddToList(4);
             particle.startColor = colors[4];
             particle.Play();
+            audioSource.clip = banjoSFX[4];
+            audioSource.Play();
         }
         if (Input.GetKeyUp("j")) { images[4].color = Color.white; }
 
@@ -99,6 +111,8 @@ public class InstumentController : MonoBehaviour
             AddToList(5);
             particle.startColor = colors[5];
             particle.Play();
+            audioSource.clip = banjoSFX[5];
+            audioSource.Play();
         }
         if (Input.GetKeyUp("k")) { images[5].color = Color.white; }
 
@@ -108,6 +122,8 @@ public class InstumentController : MonoBehaviour
             AddToList(6);
             particle.startColor = colors[6];
             particle.Play();
+            audioSource.clip = banjoSFX[6];
+            audioSource.Play();
         }
         if (Input.GetKeyUp("l")) { images[6].color = Color.white; }
 
@@ -117,6 +133,8 @@ public class InstumentController : MonoBehaviour
             AddToList(7);
             particle.startColor = colors[7];
             particle.Play();
+            audioSource.clip = banjoSFX[7];
+            audioSource.Play();
         }
         if (Input.GetKeyUp(KeyCode.Semicolon)) { images[7].color = Color.white; }
 
