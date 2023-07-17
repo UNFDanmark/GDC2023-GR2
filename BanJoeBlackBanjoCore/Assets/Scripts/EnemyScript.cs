@@ -18,6 +18,7 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private ParticleSystem particle;
+    [SerializeField] private ParticleSystem friendParticle;
 
     private bool hasDoneIt = false;
     private bool playedMelodyQueue = false;
@@ -104,6 +105,7 @@ public class EnemyScript : MonoBehaviour
         globalInstumentController = player.GetComponent<InstumentController>();
         List<AudioClip> banjoSFX = globalInstumentController.banjoSFX;
         List<AudioClip> soundQueue = new List<AudioClip>();
+        noteNames.Clear();
 
         
         foreach (var note in melody.integerList)
@@ -116,8 +118,8 @@ public class EnemyScript : MonoBehaviour
     }
 
     
-    void Befriending()
+    public void Befriending()
     {
-        ;
+        friendParticle.Play();
     }
 }

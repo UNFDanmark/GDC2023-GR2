@@ -226,7 +226,7 @@ public class InstumentController : MonoBehaviour
                 }
                 if (i == enemyMelody.Count-1)
                 {
-                    print("yeay");
+                    enemyGameObjects[i].GetComponent<EnemyScript>().Befriending();
                 }
 
                 i++;
@@ -242,7 +242,6 @@ public class InstumentController : MonoBehaviour
 
     public bool Pulse()
     {
-        clock += Time.deltaTime;
         if (clock%pulseDeltaTime < 0+(inputLeniency/2)*pulseDeltaTime || clock%pulseDeltaTime > pulseDeltaTime-(inputLeniency/2)*pulseDeltaTime )
         {
             return true;
@@ -252,6 +251,7 @@ public class InstumentController : MonoBehaviour
 
     void Update()
     {
+        clock += Time.deltaTime;
         NoteInput(Pulse());
     }
 
