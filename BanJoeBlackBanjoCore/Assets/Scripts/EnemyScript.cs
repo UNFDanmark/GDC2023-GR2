@@ -14,10 +14,12 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] private float encounterDistance;
     [SerializeField] private float stopDistance;
     [SerializeField] private NavMeshAgent agent;
-    [SerializeField] private Transform oneDirection;
+    
+    
     [SerializeField] private LayerMask layerMask;
 
     private bool hasDoneIt = false;
+    private int enemyNumber;
     
     // Start is called before the first frame update
     void Start()
@@ -33,24 +35,34 @@ public class EnemyScript : MonoBehaviour
         {
             if (!hasDoneIt)
             {
+                enemyNumber = enemyMelodies.Count;
                 enemyMelodies.Add(melody);
                 enemyGameObjects.Add(gameObject);
                 hasDoneIt = true;
             }
         }
+        else
+        {
+            enemyMelodies.RemoveAt(enemyNumber);
+            hasDoneIt = false;
+        }
 
         agent.SetDestination(player.position);
-        print(agent.destination);
+        
         
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, stopDistance, layerMask))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-            Debug.Log("heaofjoiuewsrgf");
+            if (hit.transform.gameObject.layer == 6)
+            {
+                agent.speed = 0;
+                transform.LookAt(player.position);
+            }
+
         }else
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
-            Debug.Log("Did not Hit");
+            agent.speed = 3;
+
         }
     }
 
