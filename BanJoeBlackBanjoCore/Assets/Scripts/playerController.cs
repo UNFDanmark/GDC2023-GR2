@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mime;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -20,8 +21,7 @@ public class playerController : MonoBehaviour
 
     [SerializeField] private int HP;
     [SerializeField] private List<GameObject> hitPoints;
-    [SerializeField] private InstumentController instumentController;
-    [SerializeField] private HeartBeat heartBeat;
+    
     
     
     [SerializeField]
@@ -141,6 +141,17 @@ public class playerController : MonoBehaviour
     void Sleep()
     {
         GameObject sleepInstance = Instantiate(sleepField, fieldRig.transform.position, transform.rotation);
+        Collider[] hits = Physics.OverlapSphere(fieldRig.transform.position, 10);
+        
+        foreach (var hit in hits)
+        {
+            if (hit.CompareTag("Enemy"))
+            {
+                hit.gameObject.GetComponent<EnemyScript>().StartSleep();
+            }
+        }
         Destroy(sleepInstance, fieldLifetime);
     }
+
+  
 }
