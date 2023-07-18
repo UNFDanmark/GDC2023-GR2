@@ -7,8 +7,8 @@ public enum ActionType
 {
     nothing,
     fireball,
-    healing,
-    damage
+    sleep,
+    ice
 }
 
 public class playerController : MonoBehaviour
@@ -19,6 +19,22 @@ public class playerController : MonoBehaviour
     private float playerSpeed;
     [SerializeField]
     private Rigidbody rb;
+    [SerializeField] 
+    GameObject fireBall;
+    [SerializeField] 
+    GameObject shootingRig;
+    [SerializeField] 
+    private int fireBallSpeed;
+    [SerializeField] 
+    GameObject iceWave;
+    [SerializeField] 
+    GameObject fieldRig;
+    [SerializeField] 
+    private GameObject sleepField;
+    [SerializeField] 
+    private int fieldLifetime;
+
+    [SerializeField] private float fireballLifetime;
 
     private float x;
     private float y;
@@ -57,7 +73,15 @@ public class playerController : MonoBehaviour
             ;
         } else if (pendingAction == ActionType.fireball)
         {
-            print("fuha");
+            FireBall();
+            pendingAction = ActionType.nothing;
+        } else if (pendingAction == ActionType.ice)
+        {
+            IceWave();
+            pendingAction = ActionType.nothing;
+        } else if (pendingAction == ActionType.sleep)
+        {
+            Sleep();
             pendingAction = ActionType.nothing;
         }
     }
@@ -66,5 +90,25 @@ public class playerController : MonoBehaviour
     {
         rb.velocity = new Vector3(x, 0 ,y).normalized * playerSpeed;
         
+    }
+
+    void FireBall()
+    {
+        GameObject fireBallInstance = Instantiate(fireBall, shootingRig.transform.position, transform.rotation);
+        fireBallInstance.GetComponent<Rigidbody>().velocity = shootingRig.transform.forward*fireBallSpeed;
+        Destroy(fireBallInstance, fireballLifetime);
+    }
+
+    void IceWave()
+    {
+        GameObject iceWaveInstance = Instantiate(iceWave, shootingRig.transform.position, transform.rotation);
+        iceWaveInstance.GetComponent<Rigidbody>().velocity = shootingRig.transform.forward*fireBallSpeed;
+        Destroy(iceWaveInstance, fireballLifetime);
+    }
+
+    void Sleep()
+    {
+        GameObject sleepInstance = Instantiate(sleepField, fieldRig.transform.position, transform.rotation);
+        Destroy(sleepInstance, fieldLifetime);
     }
 }
