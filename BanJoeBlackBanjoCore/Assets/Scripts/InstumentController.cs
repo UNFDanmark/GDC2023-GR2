@@ -203,8 +203,8 @@ public class InstumentController : MonoBehaviour
                     i++;
                 }
                 timeLeft = 0;
+                j++;
             }
-            j++;
         }
         catch (Exception e)
         {
