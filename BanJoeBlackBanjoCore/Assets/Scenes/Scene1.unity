@@ -7115,7 +7115,7 @@ GameObject:
   - component: {fileID: 937295493}
   m_Layer: 6
   m_Name: Peter
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7175,7 +7175,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   melody:
-    integerList: 01000000
+    integerList: 01000000020000000300000004000000020000000000000001000000
+  HP: 10
   player: {fileID: 2060595719}
   encounterDistance: 20
   activeDistance: 30
@@ -20623,8 +20624,6 @@ MonoBehaviour:
   - {fileID: 1045580138}
   - {fileID: 2057593535}
   - {fileID: 677791883}
-  instumentController: {fileID: 0}
-  heartBeat: {fileID: 0}
   playerSpeed: 5
   rb: {fileID: 2060595715}
   fireBall: {fileID: 3913674012542884129, guid: b1297a04bf1b897499b7b76e6bef1cfa,
@@ -20635,7 +20634,7 @@ MonoBehaviour:
   fieldRig: {fileID: 1806920319}
   sleepField: {fileID: 108999209499768646, guid: 954d72b326c7af745b7fab687581a6a1,
     type: 3}
-  fieldLifetime: 2
+  fieldLifetime: 10
   fireballLifetime: 1.5
   pendingAction: 0
 --- !u!114 &2060595721

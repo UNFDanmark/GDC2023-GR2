@@ -7,6 +7,7 @@ TagManager:
   - Fireball
   - Icewave
   - SleepField
+  - Enemy
   layers:
   - Default
   - TransparentFX

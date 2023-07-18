@@ -8,6 +8,8 @@ public class EnemyScript : MonoBehaviour
 {
     public PreDefinedNotes melody;
 
+    public int HP = 12;
+
     private List<PreDefinedNotes> enemyMelodies = new List<PreDefinedNotes>();
     private List<GameObject> enemyGameObjects = new List<GameObject>();
     
@@ -24,6 +26,7 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] private playerController playercontroller;
     [SerializeField] private float speed;
 
+    private bool triggerStay = true;
     private bool hasDoneIt = false;
     private bool playedMelodyQueue = false;
     private int enemyNumber;
@@ -48,6 +51,10 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (HP <= 0)
+        {
+            Destroy(gameObject);
+        }
         if (inactive)
         {
             if (Vector3.Distance(transform.position, player.position) < activeDistance && !paralyzed)
@@ -144,7 +151,8 @@ public class EnemyScript : MonoBehaviour
     {
         if (other.CompareTag("Fireball"))
         {
-            
+            HP -= 6;
+            Destroy(other.gameObject);
         }
         if (other.CompareTag("Icewave"))
         {
@@ -152,19 +160,24 @@ public class EnemyScript : MonoBehaviour
         }
         if (other.CompareTag("SleepField"))
         {
+            print("ikew");
             StartCoroutine(SleepField());
+            
         }
     }
 
+    
+    
     IEnumerator IceWave()
     {
-        
+        HP -= 3;
         speed /= 2;
         yield return new WaitForSeconds(5);
         speed *= 2;
 
     }
 
+    
     IEnumerator SleepField()
     {
         paralyzed = true;
@@ -172,10 +185,19 @@ public class EnemyScript : MonoBehaviour
         yield return new WaitForSeconds(5);
         paralyzed = false;
     }
+    
+    public void StartSleep()
+    {
+        StartCoroutine(SleepField());
+    }
     public void Befriending()
     {
-        friendParticle.Play();
-        playercontroller.Heal();
-        
+        if (!inactive)
+        {
+            friendParticle.Play();
+            playercontroller.Heal();
+            inactive = true;
+            paralyzed = true;
+        }
     }
 }
