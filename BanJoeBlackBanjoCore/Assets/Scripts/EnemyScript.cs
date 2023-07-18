@@ -25,6 +25,7 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] private ParticleSystem friendParticle;
     [SerializeField] private playerController playercontroller;
     [SerializeField] private float speed;
+    [SerializeField] private float moveBackDistance;
 
     private bool triggerStay = true;
     private bool hasDoneIt = false;
@@ -39,6 +40,8 @@ public class EnemyScript : MonoBehaviour
     private List<int> noteNames = new List<int>();
     public bool inactive = true;
     private bool paralyzed = false;
+    private bool isTargetingPlayer = true;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +54,13 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print(agent.destination);
+        Vector3 dif = transform.position - agent.destination;
+        dif.y = 0;
+        if (dif.magnitude < 1)
+        {
+            isTargetingPlayer = true;
+        }
         if (HP <= 0)
         {
             Destroy(gameObject);
@@ -81,29 +91,34 @@ public class EnemyScript : MonoBehaviour
                 hasDoneIt = false;
             }
 
-            agent.SetDestination(player.position);
-
-        
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit,
-                    stopDistance, layerMask))
+            if (isTargetingPlayer)
             {
-                if (hit.transform.gameObject.layer == 6)
-                {
-                    agent.speed = 0;
-                    transform.LookAt(player.position);
-                    if (!playedMelodyQueue)
-                    {
+                agent.SetDestination(player.position);
+            }
 
-                        globalSoundQueue = MelodyQueueing();
-                        playedMelodyQueue = true;
+            if (isTargetingPlayer)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit,
+                        stopDistance, layerMask))
+                {
+                    if (hit.transform.gameObject.layer == 6)
+                    {
+                        agent.speed = 0;
+                        transform.LookAt(player.position);
+                        if (!playedMelodyQueue)
+                        {
+
+                            globalSoundQueue = MelodyQueueing();
+                            playedMelodyQueue = true;
+                        }
                     }
                 }
-            }
-            else
-            {
-                playedMelodyQueue = false;
-                agent.speed = speed;
+                else
+                {
+                    playedMelodyQueue = false;
+                    agent.speed = speed;
+                }
             }
 
             if (playedMelodyQueue && globalSoundQueue.Count != 0)
@@ -121,6 +136,11 @@ public class EnemyScript : MonoBehaviour
                     if (globalSoundQueue.Count == 0)
                     {
                         playercontroller.Damage();
+                        isTargetingPlayer = false;
+                        Vector3 P2E = transform.position - player.position;
+                        Vector3 push = P2E.normalized * moveBackDistance;
+                        agent.SetDestination(transform.position+push);
+                        agent.speed = 3;
                     }
 
                 }

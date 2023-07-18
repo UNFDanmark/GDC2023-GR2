@@ -18,7 +18,11 @@ public class InstumentController : MonoBehaviour
     [SerializeField]
     Image[] images;
 
-   
+    [SerializeField] private float[] coolDownValues;
+    [SerializeField] private List<float> coolDowns;
+    [SerializeField] private Image[] coolDownUI;
+    private List<Image> coolDownFillAmount;
+
     public Color[] colors;
     public Color[] passiveColor;
 
@@ -51,6 +55,7 @@ public class InstumentController : MonoBehaviour
 
     [SerializeField] private Animator heartPulse;
     float timeLeft;
+
     
     
     
@@ -61,10 +66,12 @@ public class InstumentController : MonoBehaviour
     public List<PreDefinedNotes> enemyMelody;
     public List<GameObject> enemyGameObjects;
 
+    
 
     void Start()
     {
         pulseDeltaTime = 60 / BPM;
+        
 
     }
 
@@ -77,8 +84,8 @@ public class InstumentController : MonoBehaviour
     }
 
     void NoteInput(bool pulse)
-    { 
-    if(pulse)
+    {
+        if(pulse)
     {
         timeLeft -= Time.deltaTime;
         if (timeLeft <= 0)
@@ -201,7 +208,11 @@ public class InstumentController : MonoBehaviour
                     }
                     if (i == chord.integerList.Count - 1)
                     {
-                        player.pendingAction = (ActionType)j+1;
+                        if (coolDowns[i] <= 0)
+                        {
+                            player.pendingAction = (ActionType)j + 1;
+                            coolDowns[j] = coolDownValues[j];
+                        }
                     }
                     i++;
                 }
@@ -254,8 +265,19 @@ public class InstumentController : MonoBehaviour
 
     void Update()
     {
+        for (int i = 0; i < coolDowns.Count; i++)
+        {
+            if (coolDowns[i] > 0)
+            {
+                coolDowns[i] -= Time.deltaTime;
+
+                coolDownUI[i].fillAmount = coolDowns[i] / coolDownValues[i];
+            }
+        }
+        
         clock += Time.deltaTime;
         NoteInput(Pulse());
+        
     }
 
 }
