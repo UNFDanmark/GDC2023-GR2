@@ -18,8 +18,9 @@ public class InstumentController : MonoBehaviour
     [SerializeField]
     Image[] images;
 
-    [SerializeField]
+   
     public Color[] colors;
+    public Color[] passiveColor;
 
     [SerializeField]
     float cooldownTime;
@@ -157,20 +158,22 @@ public class InstumentController : MonoBehaviour
             audioSource.clip = banjoSFX[7];
             audioSource.PlayOneShot(banjoSFX[7]);
         }
-    }
-
-        if (Input.GetKeyUp("u")) { images[0].color = Color.white; }
-        if (Input.GetKeyUp("i")) { images[1].color = Color.white; }
-        if (Input.GetKeyUp("o")) { images[2].color = Color.white; }
-        if (Input.GetKeyUp("p")) { images[3].color = Color.white; }
-        if (Input.GetKeyUp("j")) { images[4].color = Color.white; }
-        if (Input.GetKeyUp("k")) { images[5].color = Color.white; }
-        if (Input.GetKeyUp("l")) { images[6].color = Color.white; }
-        if (Input.GetKeyUp(KeyCode.Semicolon)) { images[7].color = Color.white; }
         
-
+    }
         if (Input.GetKeyDown(KeyCode.RightShift)) { ChordCheck(); }
         if (Input.GetKeyDown(KeyCode.RightControl)){MelodyCheck();}
+
+        if (Input.GetKeyUp("u")) { images[0].color = passiveColor[0]; }
+        if (Input.GetKeyUp("i")) { images[1].color = passiveColor[1]; }
+        if (Input.GetKeyUp("o")) { images[2].color = passiveColor[2]; }
+        if (Input.GetKeyUp("p")) { images[3].color = passiveColor[3]; }
+        if (Input.GetKeyUp("j")) { images[4].color = passiveColor[4]; }
+        if (Input.GetKeyUp("k")) { images[5].color = passiveColor[5]; }
+        if (Input.GetKeyUp("l")) { images[6].color = passiveColor[6]; }
+        if (Input.GetKeyUp(KeyCode.Semicolon)) { images[7].color = passiveColor[7]; }
+        
+
+        
     }
     void AddToList(int i)
     {
