@@ -6,9 +6,13 @@ public class HeartBeat : MonoBehaviour
 {
     [SerializeField] 
     private AudioSource audioSourceTemp;
+
+    public bool pendingHeal;
     
     public void Play()
     {
         audioSourceTemp.Play();
     }
+
+    
 }
