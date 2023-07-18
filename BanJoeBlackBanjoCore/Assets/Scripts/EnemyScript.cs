@@ -14,13 +14,23 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] private float encounterDistance;
     [SerializeField] private float stopDistance;
     [SerializeField] private NavMeshAgent agent;
-    
-    
+
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private ParticleSystem particle;
+    [SerializeField] private ParticleSystem friendParticle;
 
     private bool hasDoneIt = false;
+    private bool playedMelodyQueue = false;
     private int enemyNumber;
-    
+    private bool Caerl = false;
+    private float timeSinceLastSound = 0;
+    private bool isPlaying = false;
+    bool lastBool = false;
+    private List<AudioClip> globalSoundQueue = new List<AudioClip>();
+    private InstumentController globalInstumentController;
+    private List<int> noteNames = new List<int>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,17 +67,59 @@ public class EnemyScript : MonoBehaviour
             {
                 agent.speed = 0;
                 transform.LookAt(player.position);
+                if (!playedMelodyQueue)
+                {
+                    print("melodiqueue");
+                    globalSoundQueue = MelodyQueueing();
+                    playedMelodyQueue = true;
+                }
             }
-
         }else
         {
+            playedMelodyQueue = false;
             agent.speed = 3;
+        }
 
+        if (playedMelodyQueue && globalSoundQueue.Count != 0)
+        {
+            bool caerl = globalInstumentController.Pulse();
+            
+            print(globalSoundQueue.Count);
+            if (caerl && !lastBool)
+            {
+                print("Playing sound of length:" + ((globalInstumentController.inputLeniency) * globalInstumentController.pulseDeltaTime));
+                audioSource.PlayOneShot(globalSoundQueue[0]);
+                globalSoundQueue.RemoveAt(0);
+                particle.startColor = globalInstumentController.colors[noteNames[0]];
+                particle.Play();
+                noteNames.RemoveAt(0);
+
+
+            }
+            lastBool = caerl;
         }
     }
 
-    void Befriending()
+    List<AudioClip> MelodyQueueing()
     {
-        ;
+        globalInstumentController = player.GetComponent<InstumentController>();
+        List<AudioClip> banjoSFX = globalInstumentController.banjoSFX;
+        List<AudioClip> soundQueue = new List<AudioClip>();
+        noteNames.Clear();
+
+        
+        foreach (var note in melody.integerList)
+        {
+            soundQueue.Add(banjoSFX[note]);
+            noteNames.Add(note);
+        }
+        return soundQueue;
+        
+    }
+
+    
+    public void Befriending()
+    {
+        friendParticle.Play();
     }
 }

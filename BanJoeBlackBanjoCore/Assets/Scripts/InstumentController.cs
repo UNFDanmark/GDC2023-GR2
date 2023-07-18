@@ -19,7 +19,7 @@ public class InstumentController : MonoBehaviour
     Image[] images;
 
     [SerializeField]
-    Color[] colors;
+    public Color[] colors;
 
     [SerializeField]
     float cooldownTime;
@@ -28,7 +28,7 @@ public class InstumentController : MonoBehaviour
     private ParticleSystem particle;
     
     [SerializeField]
-    private List<AudioClip> banjoSFX = new List<AudioClip>();
+    public List<AudioClip> banjoSFX = new List<AudioClip>();
 
     [SerializeField] 
     private AudioSource audioSource;
@@ -40,13 +40,13 @@ public class InstumentController : MonoBehaviour
     private float BPM;
 
     [SerializeField] 
-    private float pulseDeltaTime;
+    public float pulseDeltaTime;
     
     [SerializeField] 
-    private float clock;
+    public float clock;
 
     [SerializeField] 
-    private float inputLeniency;
+    public float inputLeniency;
 
     [SerializeField] private Animator heartPulse;
     float timeLeft;
@@ -92,74 +92,74 @@ public class InstumentController : MonoBehaviour
             particle.startColor = colors[0];
             particle.Play();
             audioSource.clip = banjoSFX[0];
-            audioSource.Play();
+            audioSource.PlayOneShot(banjoSFX[0]);
         }
-        else if (Input.GetKeyDown("i"))
+        if (Input.GetKeyDown("i"))
         {
             images[1].color = colors[1];
             AddToList(1);
             particle.startColor = colors[1];
             particle.Play();
             audioSource.clip = banjoSFX[1];
-            audioSource.Play();
+            audioSource.PlayOneShot(banjoSFX[1]);
         }
-        else if (Input.GetKeyDown("o"))
+        if (Input.GetKeyDown("o"))
         {
             images[2].color = colors[2];
             AddToList(2);
             particle.startColor = colors[2];
             particle.Play();
             audioSource.clip = banjoSFX[2];
-            audioSource.Play();
+            audioSource.PlayOneShot(banjoSFX[2]);
         }
-        else if (Input.GetKeyDown("p"))
+        if (Input.GetKeyDown("p"))
         {
             images[3].color = colors[3];
             AddToList(3);
             particle.startColor = colors[3];
             particle.Play();
             audioSource.clip = banjoSFX[3];
-            audioSource.Play();
+            audioSource.PlayOneShot(banjoSFX[3]);
         }
-        else if (Input.GetKeyDown("j"))
+        if (Input.GetKeyDown("j"))
         {
             images[4].color = colors[4];
             AddToList(4);
             particle.startColor = colors[4];
             particle.Play();
             audioSource.clip = banjoSFX[4];
-            audioSource.Play();
+            audioSource.PlayOneShot(banjoSFX[4]);
         }
-        else if (Input.GetKeyDown("k"))
+        if (Input.GetKeyDown("k"))
         {
             images[5].color = colors[5];
             AddToList(5);
             particle.startColor = colors[5];
             particle.Play();
             audioSource.clip = banjoSFX[5];
-            audioSource.Play();
+            audioSource.PlayOneShot(banjoSFX[5]);
         }
-        else if (Input.GetKeyDown("l"))
+        if (Input.GetKeyDown("l"))
         {
             images[6].color = colors[6];
             AddToList(6);
             particle.startColor = colors[6];
             particle.Play();
             audioSource.clip = banjoSFX[6];
-            audioSource.Play();
+            audioSource.PlayOneShot(banjoSFX[6]);
         }
-        else if (Input.GetKeyDown(KeyCode.Semicolon))
+        if (Input.GetKeyDown(KeyCode.Semicolon))
         {
             images[7].color = colors[7];
             AddToList(7);
             particle.startColor = colors[7];
             particle.Play();
             audioSource.clip = banjoSFX[7];
-            audioSource.Play();
+            audioSource.PlayOneShot(banjoSFX[7]);
         }
     }
 
-    if (Input.GetKeyUp("u")) { images[0].color = Color.white; }
+        if (Input.GetKeyUp("u")) { images[0].color = Color.white; }
         if (Input.GetKeyUp("i")) { images[1].color = Color.white; }
         if (Input.GetKeyUp("o")) { images[2].color = Color.white; }
         if (Input.GetKeyUp("p")) { images[3].color = Color.white; }
@@ -226,7 +226,7 @@ public class InstumentController : MonoBehaviour
                 }
                 if (i == enemyMelody.Count-1)
                 {
-                    print("yeay");
+                    enemyGameObjects[i].GetComponent<EnemyScript>().Befriending();
                 }
 
                 i++;
@@ -240,15 +240,10 @@ public class InstumentController : MonoBehaviour
 
     }
 
-    bool Pulse()
+    public bool Pulse()
     {
-        clock += Time.deltaTime;
         if (clock%pulseDeltaTime < 0+(inputLeniency/2)*pulseDeltaTime || clock%pulseDeltaTime > pulseDeltaTime-(inputLeniency/2)*pulseDeltaTime )
         {
-            if (clock%pulseDeltaTime < 0+(0.05/2)*pulseDeltaTime || clock%pulseDeltaTime > pulseDeltaTime-(0.05/2)*pulseDeltaTime )
-            {
-                audioSourceTemp.Play();
-            }
             return true;
         }
         return false;
@@ -256,6 +251,7 @@ public class InstumentController : MonoBehaviour
 
     void Update()
     {
+        clock += Time.deltaTime;
         NoteInput(Pulse());
     }
 
