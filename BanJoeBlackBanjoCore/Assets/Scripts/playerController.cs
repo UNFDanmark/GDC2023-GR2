@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public enum ActionType
 {
@@ -13,6 +16,12 @@ public enum ActionType
 
 public class playerController : MonoBehaviour
 {
+
+
+    [SerializeField] private int HP;
+    [SerializeField] private List<GameObject> hitPoints;
+    [SerializeField] private InstumentController instumentController;
+    [SerializeField] private HeartBeat heartBeat;
     
     
     [SerializeField]
@@ -53,6 +62,7 @@ public class playerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         x = Input.GetAxis("Horizontal");
         y = Input.GetAxis("Vertical");
         hypo = MathF.Sqrt(x*x+y*y);
@@ -90,6 +100,28 @@ public class playerController : MonoBehaviour
     {
         rb.velocity = new Vector3(x, 0 ,y).normalized * playerSpeed;
         
+    }
+
+    public void Damage()
+    {
+        HP -= 1;
+        
+        hitPoints[HP].gameObject.GetComponent<Image>().enabled = false;
+        if (HP <= 0)
+        {
+            SceneManager.LoadScene("DeathScreen");
+        }
+        
+    }
+
+    public void Heal()
+    {
+        if (HP < 5)
+        {
+            hitPoints[HP].gameObject.GetComponent<Image>().enabled = true;
+            HP += 1;
+            
+        }
     }
 
     void FireBall()
