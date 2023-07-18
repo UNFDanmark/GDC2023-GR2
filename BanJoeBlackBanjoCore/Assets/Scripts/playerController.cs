@@ -21,7 +21,7 @@ public class playerController : MonoBehaviour
 
     [SerializeField] private int HP;
     [SerializeField] private List<GameObject> hitPoints;
-    
+    [SerializeField] private InstumentController instumentController;
     
     
     [SerializeField]
@@ -44,7 +44,10 @@ public class playerController : MonoBehaviour
     private int fieldLifetime;
 
     [SerializeField] private float fireballLifetime;
-
+    [SerializeField] private GameObject[] chordsUI;
+    
+    public float chordPoints;
+    
     private float x;
     private float y;
     private float hypo;
@@ -62,6 +65,30 @@ public class playerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (chordPoints < 1)
+        {
+            if (!instumentController.availableChords[0])
+            {
+                instumentController.availableChords[0] = true;
+                chordsUI[0].SetActive(true);
+            }
+            
+        } else if (chordPoints < 2)
+        {
+            if (!instumentController.availableChords[1])
+            {
+                instumentController.availableChords[1] = true;
+                chordsUI[1].SetActive(true);
+            }
+        }
+        else if (chordPoints < 3)
+        {
+            if (!instumentController.availableChords[2])
+            {
+                instumentController.availableChords[2] = true;
+                chordsUI[2].SetActive(true);
+            }
+        }
         
         x = Input.GetAxis("Horizontal");
         y = Input.GetAxis("Vertical");

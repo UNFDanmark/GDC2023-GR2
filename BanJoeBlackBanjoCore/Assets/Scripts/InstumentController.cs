@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Linq.Expressions;
 using UnityEditorInternal;
 using UnityEngine;
@@ -60,14 +61,15 @@ public class InstumentController : MonoBehaviour
     
     
     public List<PreDefinedNotes> chordDefinitions;
+    public bool[] availableChords = new bool[4];
     public List<int> latestNotes = new List<int>();
     
 
     public List<PreDefinedNotes> enemyMelody;
     public List<GameObject> enemyGameObjects;
 
-    
 
+    
     void Start()
     {
         pulseDeltaTime = 60 / BPM;
@@ -79,7 +81,7 @@ public class InstumentController : MonoBehaviour
     {
         AnimationClip heartAnimation = heartPulse.runtimeAnimatorController.animationClips[0];
         //heartAnimation.frameRate = 60;
-
+        
         heartPulse.speed = BPM/60;
     }
 
@@ -200,6 +202,11 @@ public class InstumentController : MonoBehaviour
             foreach (var chord in chordDefinitions)
             {
                 int i = 0;
+                if (!availableChords[j])
+                {
+                    continue;
+                }
+                
                 foreach (var note in chord.integerList)
                 {
                     if (note != latestNotes[i])

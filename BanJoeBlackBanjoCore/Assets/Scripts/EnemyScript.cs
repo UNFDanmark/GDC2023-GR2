@@ -63,6 +63,7 @@ public class EnemyScript : MonoBehaviour
         }
         if (HP <= 0)
         {
+            playercontroller.chordPoints += 1;
             Destroy(gameObject);
         }
         if (inactive)
