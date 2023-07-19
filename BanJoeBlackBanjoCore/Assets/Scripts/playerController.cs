@@ -68,6 +68,7 @@ public class playerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (chordPoints < 1)
         {
             if (!instumentController.availableChords[0])
@@ -139,7 +140,7 @@ public class playerController : MonoBehaviour
         hitPoints[HP].gameObject.GetComponent<Image>().enabled = false;
         if (HP <= 0)
         {
-            print("hfaw");
+            
             gameController.killCount = chordPoints;
             gameController.hitPoints = HP;
             SceneManager.LoadScene("DeathScreen");
@@ -185,6 +186,5 @@ public class playerController : MonoBehaviour
         }
         Destroy(sleepInstance, fieldLifetime);
     }
-
-  
+    
 }
