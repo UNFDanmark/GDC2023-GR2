@@ -89,9 +89,8 @@ public class EnemyScript : MonoBehaviour
             else
             {
                 if (hasDoneIt)
-                {
-                print("Removed melody");
-                enemyMelodies.Remove(melody);
+                { 
+                    enemyMelodies.Remove(melody);
                 enemyGameObjects.Remove(gameObject);
                 hasDoneIt = false;
                 }
