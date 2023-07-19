@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class Lorebook : MonoBehaviour
 {
     [SerializeField] private GameObject[] pages;
+    [SerializeField] private GameObject loreBook;
+    
 
     private int i = 0;
     public void PageForward()
@@ -44,6 +46,6 @@ public class Lorebook : MonoBehaviour
 
     public void Exit()
     {
-        SceneManager.LoadScene("Scene1");
+        loreBook.SetActive(false);
     }
 }
