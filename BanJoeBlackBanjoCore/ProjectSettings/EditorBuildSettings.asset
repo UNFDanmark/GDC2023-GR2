@@ -24,9 +24,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Scene1.unity
     guid: 6cdd4cb91c96bde4bb2f032a248c0112
   - enabled: 1
+    path: Assets/Scenes/Lorebook.unity
+    guid: 6a29d0029f3718d41b9d7cf6d4a75609
+  - enabled: 1
     path: Assets/Scenes/test.unity
     guid: 18cb63dd3552fff44ad49407392ad182
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tutorial.unity
     guid: a5e0c60255e455a42bbbd0f3badd45ce
   m_configObjects: {}
