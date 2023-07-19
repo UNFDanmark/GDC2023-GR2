@@ -46,7 +46,7 @@ public class playerController : MonoBehaviour
     [SerializeField] private float fireballLifetime;
     [SerializeField] private GameObject[] chordsUI;
     
-    public float chordPoints;
+    public int chordPoints;
     
     private float x;
     private float y;
@@ -55,11 +55,14 @@ public class playerController : MonoBehaviour
     private float lastAngle;
 
     public ActionType pendingAction;
+    public omniscient gameController;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameController = GameObject.Find("gamecontroller").GetComponent<omniscient>();
+        HP = gameController.hitPoints;
+        chordPoints = gameController.killCount;
     }
 
     // Update is called once per frame
@@ -136,6 +139,8 @@ public class playerController : MonoBehaviour
         hitPoints[HP].gameObject.GetComponent<Image>().enabled = false;
         if (HP <= 0)
         {
+            gameController.killCount = chordPoints;
+            gameController.hitPoints = HP;
             SceneManager.LoadScene("DeathScreen");
         }
         

@@ -67,12 +67,14 @@ public class InstumentController : MonoBehaviour
     public List<PreDefinedNotes> enemyMelody;
     public List<GameObject> enemyGameObjects;
 
+    private omniscient gameController;
 
     
     void Start()
     {
         pulseDeltaTime = 60 / BPM;
-        
+        gameController = GameObject.Find("gamecontroller").GetComponent<omniscient>();
+        inputLeniency = gameController.leniancy;
 
     }
 
