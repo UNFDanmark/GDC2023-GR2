@@ -139,6 +139,7 @@ public class playerController : MonoBehaviour
         hitPoints[HP].gameObject.GetComponent<Image>().enabled = false;
         if (HP <= 0)
         {
+            print("hfaw");
             gameController.killCount = chordPoints;
             gameController.hitPoints = HP;
             SceneManager.LoadScene("DeathScreen");
