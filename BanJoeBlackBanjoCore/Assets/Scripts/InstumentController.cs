@@ -39,8 +39,7 @@ public class InstumentController : MonoBehaviour
     [SerializeField] 
     private AudioSource audioSource;
     
-    [SerializeField]
-    private AudioSource audioSourceTemp;
+    
 
     [SerializeField] 
     private float BPM;
@@ -215,7 +214,7 @@ public class InstumentController : MonoBehaviour
                     }
                     if (i == chord.integerList.Count - 1)
                     {
-                        if (coolDowns[i] <= 0)
+                        if (coolDowns[j] <= 0)
                         {
                             player.pendingAction = (ActionType)j + 1;
                             coolDowns[j] = coolDownValues[j];
@@ -243,22 +242,22 @@ public class InstumentController : MonoBehaviour
             {
                 if (note != latestNotes[i])
                 {
-                    break;
+                    continue;
                 }
-                if (i == enemyMelody.Count-1)
+                if (i == enemyMelody.Count)
                 {
-                    enemyGameObjects[i].GetComponent<EnemyScript>().Befriending();
+                    enemyGameObjects[j].GetComponent<EnemyScript>().Befriending();
+                    enemyMelody.RemoveAt(j);
+                    enemyGameObjects.RemoveAt(j);
                 }
 
                 i++;
             }
 
             timeLeft = 0;
-        }
-
+            
         j++;
-
-
+        }
     }
 
     public bool Pulse()
