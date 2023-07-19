@@ -41,7 +41,7 @@ public class EnemyScript : MonoBehaviour
     public bool inactive = true;
     private bool paralyzed = false;
     private bool isTargetingPlayer = true;
-    
+    private bool beFriended = false;
 
     // Start is called before the first frame update
     void Start()
@@ -54,7 +54,8 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(agent.destination);
+        
+        
         Vector3 dif = transform.position - agent.destination;
         dif.y = 0;
         if (dif.magnitude < 1)
@@ -63,6 +64,7 @@ public class EnemyScript : MonoBehaviour
         }
         if (HP <= 0)
         {
+            playercontroller.chordPoints += 1;
             Destroy(gameObject);
         }
         if (inactive)
@@ -79,7 +81,6 @@ public class EnemyScript : MonoBehaviour
             {
                 if (!hasDoneIt)
                 {
-                    enemyNumber = enemyMelodies.Count;
                     enemyMelodies.Add(melody);
                     enemyGameObjects.Add(gameObject);
                     hasDoneIt = true;
@@ -87,8 +88,13 @@ public class EnemyScript : MonoBehaviour
             }
             else
             {
-                enemyMelodies.RemoveAt(enemyNumber);
+                if (hasDoneIt)
+                {
+                print("Removed melody");
+                enemyMelodies.Remove(melody);
+                enemyGameObjects.Remove(gameObject);
                 hasDoneIt = false;
+                }
             }
 
             if (isTargetingPlayer)
@@ -108,7 +114,6 @@ public class EnemyScript : MonoBehaviour
                         transform.LookAt(player.position);
                         if (!playedMelodyQueue)
                         {
-
                             globalSoundQueue = MelodyQueueing();
                             playedMelodyQueue = true;
                         }
@@ -169,20 +174,25 @@ public class EnemyScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Fireball"))
+        if (!beFriended)
         {
-            HP -= 6;
-            Destroy(other.gameObject);
-        }
-        if (other.CompareTag("Icewave"))
-        {
-            StartCoroutine(IceWave());
-        }
-        if (other.CompareTag("SleepField"))
-        {
-            print("ikew");
-            StartCoroutine(SleepField());
-            
+            if (other.CompareTag("Fireball"))
+            {
+                HP -= 6;
+                Destroy(other.gameObject);
+            }
+
+            if (other.CompareTag("Icewave"))
+            {
+                StartCoroutine(IceWave());
+            }
+
+            if (other.CompareTag("SleepField"))
+            {
+                print("ikew");
+                StartCoroutine(SleepField());
+
+            }
         }
     }
 
@@ -218,6 +228,8 @@ public class EnemyScript : MonoBehaviour
             playercontroller.Heal();
             inactive = true;
             paralyzed = true;
+            beFriended = true;
+            Destroy(gameObject, 10);
         }
     }
 }

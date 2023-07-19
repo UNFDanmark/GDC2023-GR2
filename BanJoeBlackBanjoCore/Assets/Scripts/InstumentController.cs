@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Linq.Expressions;
 using UnityEditorInternal;
 using UnityEngine;
@@ -38,8 +39,7 @@ public class InstumentController : MonoBehaviour
     [SerializeField] 
     private AudioSource audioSource;
     
-    [SerializeField]
-    private AudioSource audioSourceTemp;
+    
 
     [SerializeField] 
     private float BPM;
@@ -60,14 +60,15 @@ public class InstumentController : MonoBehaviour
     
     
     public List<PreDefinedNotes> chordDefinitions;
+    public bool[] availableChords = new bool[4];
     public List<int> latestNotes = new List<int>();
     
 
     public List<PreDefinedNotes> enemyMelody;
     public List<GameObject> enemyGameObjects;
 
-    
 
+    
     void Start()
     {
         pulseDeltaTime = 60 / BPM;
@@ -79,7 +80,7 @@ public class InstumentController : MonoBehaviour
     {
         AnimationClip heartAnimation = heartPulse.runtimeAnimatorController.animationClips[0];
         //heartAnimation.frameRate = 60;
-
+        
         heartPulse.speed = BPM/60;
     }
 
@@ -200,6 +201,11 @@ public class InstumentController : MonoBehaviour
             foreach (var chord in chordDefinitions)
             {
                 int i = 0;
+                if (!availableChords[j])
+                {
+                    continue;
+                }
+                
                 foreach (var note in chord.integerList)
                 {
                     if (note != latestNotes[i])
@@ -208,7 +214,7 @@ public class InstumentController : MonoBehaviour
                     }
                     if (i == chord.integerList.Count - 1)
                     {
-                        if (coolDowns[i] <= 0)
+                        if (coolDowns[j] <= 0)
                         {
                             player.pendingAction = (ActionType)j + 1;
                             coolDowns[j] = coolDownValues[j];
@@ -236,22 +242,22 @@ public class InstumentController : MonoBehaviour
             {
                 if (note != latestNotes[i])
                 {
-                    break;
+                    continue;
                 }
-                if (i == enemyMelody.Count-1)
+                if (i == enemyMelody.Count)
                 {
-                    enemyGameObjects[i].GetComponent<EnemyScript>().Befriending();
+                    enemyGameObjects[j].GetComponent<EnemyScript>().Befriending();
+                    enemyMelody.RemoveAt(j);
+                    enemyGameObjects.RemoveAt(j);
                 }
 
                 i++;
             }
 
             timeLeft = 0;
-        }
-
+            
         j++;
-
-
+        }
     }
 
     public bool Pulse()
