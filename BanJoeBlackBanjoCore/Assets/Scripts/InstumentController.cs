@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Linq.Expressions;
 using UnityEditorInternal;
 using UnityEngine;
@@ -18,7 +19,11 @@ public class InstumentController : MonoBehaviour
     [SerializeField]
     Image[] images;
 
-   
+    [SerializeField] private float[] coolDownValues;
+    [SerializeField] private List<float> coolDowns;
+    [SerializeField] private Image[] coolDownUI;
+    private List<Image> coolDownFillAmount;
+
     public Color[] colors;
     public Color[] passiveColor;
 
@@ -34,8 +39,7 @@ public class InstumentController : MonoBehaviour
     [SerializeField] 
     private AudioSource audioSource;
     
-    [SerializeField]
-    private AudioSource audioSourceTemp;
+    
 
     [SerializeField] 
     private float BPM;
@@ -51,20 +55,26 @@ public class InstumentController : MonoBehaviour
 
     [SerializeField] private Animator heartPulse;
     float timeLeft;
+
     
     
     
     public List<PreDefinedNotes> chordDefinitions;
+    public bool[] availableChords = new bool[4];
     public List<int> latestNotes = new List<int>();
     
 
     public List<PreDefinedNotes> enemyMelody;
     public List<GameObject> enemyGameObjects;
 
+    private omniscient gameController;
 
+    
     void Start()
     {
         pulseDeltaTime = 60 / BPM;
+        gameController = GameObject.Find("gamecontroller").GetComponent<omniscient>();
+        inputLeniency = gameController.leniancy;
 
     }
 
@@ -72,13 +82,13 @@ public class InstumentController : MonoBehaviour
     {
         AnimationClip heartAnimation = heartPulse.runtimeAnimatorController.animationClips[0];
         //heartAnimation.frameRate = 60;
-
+        
         heartPulse.speed = BPM/60;
     }
 
     void NoteInput(bool pulse)
-    { 
-    if(pulse)
+    {
+        if(pulse)
     {
         timeLeft -= Time.deltaTime;
         if (timeLeft <= 0)
@@ -193,6 +203,11 @@ public class InstumentController : MonoBehaviour
             foreach (var chord in chordDefinitions)
             {
                 int i = 0;
+                if (!availableChords[j])
+                {
+                    continue;
+                }
+                
                 foreach (var note in chord.integerList)
                 {
                     if (note != latestNotes[i])
@@ -201,7 +216,11 @@ public class InstumentController : MonoBehaviour
                     }
                     if (i == chord.integerList.Count - 1)
                     {
-                        player.pendingAction = (ActionType)j+1;
+                        if (coolDowns[j] <= 0)
+                        {
+                            player.pendingAction = (ActionType)j + 1;
+                            coolDowns[j] = coolDownValues[j];
+                        }
                     }
                     i++;
                 }
@@ -225,22 +244,22 @@ public class InstumentController : MonoBehaviour
             {
                 if (note != latestNotes[i])
                 {
-                    break;
+                    continue;
                 }
-                if (i == enemyMelody.Count-1)
+                if (i == enemyMelody.Count)
                 {
-                    enemyGameObjects[i].GetComponent<EnemyScript>().Befriending();
+                    enemyGameObjects[j].GetComponent<EnemyScript>().Befriending();
+                    enemyMelody.RemoveAt(j);
+                    enemyGameObjects.RemoveAt(j);
                 }
 
                 i++;
             }
 
             timeLeft = 0;
-        }
-
+            
         j++;
-
-
+        }
     }
 
     public bool Pulse()
@@ -254,8 +273,19 @@ public class InstumentController : MonoBehaviour
 
     void Update()
     {
+        for (int i = 0; i < coolDowns.Count; i++)
+        {
+            if (coolDowns[i] > 0)
+            {
+                coolDowns[i] -= Time.deltaTime;
+
+                coolDownUI[i].fillAmount = coolDowns[i] / coolDownValues[i];
+            }
+        }
+        
         clock += Time.deltaTime;
         NoteInput(Pulse());
+        
     }
 
 }

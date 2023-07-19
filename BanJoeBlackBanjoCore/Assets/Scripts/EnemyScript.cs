@@ -25,6 +25,7 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] private ParticleSystem friendParticle;
     [SerializeField] private playerController playercontroller;
     [SerializeField] private float speed;
+    [SerializeField] private float moveBackDistance;
 
     private bool triggerStay = true;
     private bool hasDoneIt = false;
@@ -39,6 +40,8 @@ public class EnemyScript : MonoBehaviour
     private List<int> noteNames = new List<int>();
     public bool inactive = true;
     private bool paralyzed = false;
+    private bool isTargetingPlayer = true;
+    private bool beFriended = false;
 
     // Start is called before the first frame update
     void Start()
@@ -51,8 +54,17 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        
+        Vector3 dif = transform.position - agent.destination;
+        dif.y = 0;
+        if (dif.magnitude < 1)
+        {
+            isTargetingPlayer = true;
+        }
         if (HP <= 0)
         {
+            playercontroller.chordPoints += 1;
             Destroy(gameObject);
         }
         if (inactive)
@@ -69,7 +81,6 @@ public class EnemyScript : MonoBehaviour
             {
                 if (!hasDoneIt)
                 {
-                    enemyNumber = enemyMelodies.Count;
                     enemyMelodies.Add(melody);
                     enemyGameObjects.Add(gameObject);
                     hasDoneIt = true;
@@ -77,33 +88,42 @@ public class EnemyScript : MonoBehaviour
             }
             else
             {
-                enemyMelodies.RemoveAt(enemyNumber);
-                hasDoneIt = false;
-            }
-
-            agent.SetDestination(player.position);
-
-        
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit,
-                    stopDistance, layerMask))
-            {
-                if (hit.transform.gameObject.layer == 6)
+                if (hasDoneIt)
                 {
-                    agent.speed = 0;
-                    transform.LookAt(player.position);
-                    if (!playedMelodyQueue)
-                    {
-
-                        globalSoundQueue = MelodyQueueing();
-                        playedMelodyQueue = true;
-                    }
+                print("Removed melody");
+                enemyMelodies.Remove(melody);
+                enemyGameObjects.Remove(gameObject);
+                hasDoneIt = false;
                 }
             }
-            else
+
+            if (isTargetingPlayer)
             {
-                playedMelodyQueue = false;
-                agent.speed = speed;
+                agent.SetDestination(player.position);
+            }
+
+            if (isTargetingPlayer)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit,
+                        stopDistance, layerMask))
+                {
+                    if (hit.transform.gameObject.layer == 6)
+                    {
+                        agent.speed = 0;
+                        transform.LookAt(player.position);
+                        if (!playedMelodyQueue)
+                        {
+                            globalSoundQueue = MelodyQueueing();
+                            playedMelodyQueue = true;
+                        }
+                    }
+                }
+                else
+                {
+                    playedMelodyQueue = false;
+                    agent.speed = speed;
+                }
             }
 
             if (playedMelodyQueue && globalSoundQueue.Count != 0)
@@ -121,6 +141,11 @@ public class EnemyScript : MonoBehaviour
                     if (globalSoundQueue.Count == 0)
                     {
                         playercontroller.Damage();
+                        isTargetingPlayer = false;
+                        Vector3 P2E = transform.position - player.position;
+                        Vector3 push = P2E.normalized * moveBackDistance;
+                        agent.SetDestination(transform.position+push);
+                        agent.speed = 3;
                     }
 
                 }
@@ -149,20 +174,25 @@ public class EnemyScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Fireball"))
+        if (!beFriended)
         {
-            HP -= 6;
-            Destroy(other.gameObject);
-        }
-        if (other.CompareTag("Icewave"))
-        {
-            StartCoroutine(IceWave());
-        }
-        if (other.CompareTag("SleepField"))
-        {
-            print("ikew");
-            StartCoroutine(SleepField());
-            
+            if (other.CompareTag("Fireball"))
+            {
+                HP -= 6;
+                Destroy(other.gameObject);
+            }
+
+            if (other.CompareTag("Icewave"))
+            {
+                StartCoroutine(IceWave());
+            }
+
+            if (other.CompareTag("SleepField"))
+            {
+                print("ikew");
+                StartCoroutine(SleepField());
+
+            }
         }
     }
 
@@ -198,6 +228,8 @@ public class EnemyScript : MonoBehaviour
             playercontroller.Heal();
             inactive = true;
             paralyzed = true;
+            beFriended = true;
+            Destroy(gameObject, 10);
         }
     }
 }
