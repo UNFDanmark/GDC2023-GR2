@@ -7,6 +7,7 @@ public class InteractableObject : MonoBehaviour
 {
     [SerializeField] private Transform player;
     [SerializeField] private float interactDistance;
+    [SerializeField] GameObject lorebook;
 
     // Update is called once per frame
     void Update()
@@ -16,7 +17,7 @@ public class InteractableObject : MonoBehaviour
             print("f");
             if (Input.GetKeyDown(KeyCode.E))
             {
-                SceneManager.LoadScene("Lorebook");
+                lorebook.SetActive(true);
             }
         }
     }
