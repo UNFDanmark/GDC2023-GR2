@@ -45,6 +45,8 @@ public class playerController : MonoBehaviour
 
     [SerializeField] private float fireballLifetime;
     [SerializeField] private GameObject[] chordsUI;
+
+    [SerializeField] private Animator animator;
     
     public int chordPoints;
     
@@ -98,7 +100,16 @@ public class playerController : MonoBehaviour
         y = Input.GetAxis("Vertical");
         hypo = MathF.Sqrt(x*x+y*y);
         angle = (Mathf.Acos(x / hypo)*180)/MathF.PI;
-       
+
+        if (x == 0 && y == 0)
+        {
+            animator.SetBool("IsWalking", false);
+        }
+        else
+        {
+            animator.SetBool("IsWalking", true);
+        }
+        
         if (y > 0)
         {
             angle *= -1;
