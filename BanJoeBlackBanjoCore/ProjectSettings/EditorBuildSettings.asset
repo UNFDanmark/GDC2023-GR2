@@ -21,6 +21,18 @@ EditorBuildSettings:
     path: Assets/Scenes/forrest level.unity
     guid: 5fc6a655e85a96b42a32f1a688ef1984
   - enabled: 1
+    path: Assets/Scenes/EndCredits.unity
+    guid: 82dc2c733579dbf44a4b8009c2043bd1
+  - enabled: 1
+    path: Assets/Scenes/Hub Level.unity
+    guid: 735b27381b04cab469617e1fc9f0e6d7
+  - enabled: 1
+    path: Assets/Scenes/Mountainy level.unity
+    guid: a8ab60ae29d5e754b93d5a4e4e148f4f
+  - enabled: 1
+    path: Assets/Scenes/Tundra level.unity
+    guid: 1f463cfa20a542b4d84c9f483e6e9668
+  - enabled: 1
     path: Assets/Scenes/Scene1.unity
     guid: 6cdd4cb91c96bde4bb2f032a248c0112
   - enabled: 1
