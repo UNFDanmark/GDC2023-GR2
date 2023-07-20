@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mime;
-using UnityEditor.Experimental.GraphView;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -71,7 +71,7 @@ public class playerController : MonoBehaviour
     void Update()
     {
 
-        if (chordPoints < 1)
+        if (chordPoints < 3)
         {
             if (!instumentController.availableChords[0])
             {
@@ -79,7 +79,7 @@ public class playerController : MonoBehaviour
                 chordsUI[0].SetActive(true);
             }
             
-        } else if (chordPoints < 2)
+        } else if (chordPoints < 6)
         {
             if (!instumentController.availableChords[1])
             {
@@ -87,7 +87,7 @@ public class playerController : MonoBehaviour
                 chordsUI[1].SetActive(true);
             }
         }
-        else if (chordPoints < 3)
+        else if (chordPoints < 20)
         {
             if (!instumentController.availableChords[2])
             {

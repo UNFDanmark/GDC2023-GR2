@@ -1,27 +1,22 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class AMINOR : MonoBehaviour
+public class rick : MonoBehaviour
 {
-
-    [SerializeField] private GameObject AMinor;
-    [SerializeField] private InstumentController instumentController;
-    
     void Update()
     {
         transform.Rotate(Vector3.up, 2);
     }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         
         if (other.CompareTag("Player"))
         {
-            
-            instumentController.availableChords[3] = true;
-            AMinor.SetActive(true);
+
+            SceneManager.LoadScene("EndCredits");
             Destroy(gameObject);
         }
     }

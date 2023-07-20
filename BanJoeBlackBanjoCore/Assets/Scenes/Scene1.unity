@@ -1341,6 +1341,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerController: {fileID: 2060595720}
   SceneNumber: 5
+  instumentController: {fileID: 0}
 --- !u!1 &1980050480
 GameObject:
   m_ObjectHideFlags: 0
@@ -1477,16 +1478,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: THE PREFAB
       objectReference: {fileID: 0}
-    - target: {fileID: 3225070394006806604, guid: d65102705e3f2bf40b457db48aab42e9,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 06c7fa5fa03ccb8489931ba1881bc716, type: 2}
-    - target: {fileID: 4566748714552508668, guid: d65102705e3f2bf40b457db48aab42e9,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 8840e09b0ae03cb4b9f9f55202da0760, type: 2}
     - target: {fileID: 7990659408649458990, guid: d65102705e3f2bf40b457db48aab42e9,
         type: 3}
       propertyPath: m_RootOrder

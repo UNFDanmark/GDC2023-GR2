@@ -9,6 +9,8 @@ public class InteractableObject : MonoBehaviour
     [SerializeField] private float interactDistance;
     [SerializeField] GameObject lorebook;
 
+    [SerializeField] private AudioSource audioSource;
+    
     // Update is called once per frame
     void Update()
     {
@@ -18,6 +20,7 @@ public class InteractableObject : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 lorebook.SetActive(true);
+                audioSource.Play();
             }
         }
     }

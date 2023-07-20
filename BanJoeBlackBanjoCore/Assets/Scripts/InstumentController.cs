@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
 using System.Linq.Expressions;
-using UnityEditorInternal;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,6 +35,9 @@ public class InstumentController : MonoBehaviour
     
     [SerializeField]
     public List<AudioClip> banjoSFX = new List<AudioClip>();
+
+   
+    
     [SerializeField]
     public List<AudioClip> chordSFX = new List<AudioClip>();
 
@@ -239,9 +242,11 @@ public class InstumentController : MonoBehaviour
                         if (coolDowns[j] <= 0)
                         {
                             
-                            player.pendingAction = (ActionType)j + 1;
-                            coolDowns[j] = coolDownValues[j];
-                            audioSource.PlayOneShot(chordSFX[j]);
+                                player.pendingAction = (ActionType)j + 1;
+                                coolDowns[j] = coolDownValues[j];
+                                audioSource.PlayOneShot(chordSFX[j]);
+                                
+                            
                             
                         }
                     }
