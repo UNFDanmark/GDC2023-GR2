@@ -19,7 +19,7 @@ public class playerController : MonoBehaviour
 {
 
 
-    [SerializeField] private int HP;
+    [SerializeField] public int HP;
     [SerializeField] private List<GameObject> hitPoints;
     [SerializeField] private InstumentController instumentController;
     
@@ -65,7 +65,11 @@ public class playerController : MonoBehaviour
         gameController = GameObject.Find("gamecontroller").GetComponent<omniscient>();
         HP = gameController.hitPoints;
         chordPoints = gameController.killCount;
+
+        UpdateHPUI();
     }
+    
+    
 
     // Update is called once per frame
     void Update()
@@ -147,22 +151,27 @@ public class playerController : MonoBehaviour
     public void Damage()
     {
         HP -= 1;
-        
-        hitPoints[HP].gameObject.GetComponent<Image>().enabled = false;
-        if (HP <= 0)
-        {
-            
-            PrepareForNewScene();
-            SceneManager.LoadScene("DeathScreen");
-        }
-        
+
+        UpdateHPUI();
     }
 
-    public void PrepareForNewScene()
+    private void UpdateHPUI()
     {
-        gameController.killCount = chordPoints;
-        gameController.hitPoints = HP;
+        for (int i = 0; i < 5; i++)
+        {
+            hitPoints[i].gameObject.GetComponent<Image>().enabled = HP > i;
+        }
+        
+        
+        if (HP <= 0)
+        {
+            gameController.killCount = chordPoints;
+            gameController.hitPoints = HP;
+            SceneManager.LoadScene("DeathScreen");
+        }
     }
+
+
     public void Heal()
     {
         if (HP < 5)
