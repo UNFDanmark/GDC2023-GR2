@@ -45,6 +45,8 @@ public class playerController : MonoBehaviour
 
     [SerializeField] private float fireballLifetime;
     [SerializeField] private GameObject[] chordsUI;
+
+    [SerializeField] private Animator animator;
     
     public int chordPoints;
     
@@ -98,7 +100,16 @@ public class playerController : MonoBehaviour
         y = Input.GetAxis("Vertical");
         hypo = MathF.Sqrt(x*x+y*y);
         angle = (Mathf.Acos(x / hypo)*180)/MathF.PI;
-       
+
+        if (x == 0 && y == 0)
+        {
+            animator.SetBool("IsWalking", false);
+        }
+        else
+        {
+            animator.SetBool("IsWalking", true);
+        }
+        
         if (y > 0)
         {
             angle *= -1;
@@ -141,13 +152,17 @@ public class playerController : MonoBehaviour
         if (HP <= 0)
         {
             
-            gameController.killCount = chordPoints;
-            gameController.hitPoints = HP;
+            PrepareForNewScene();
             SceneManager.LoadScene("DeathScreen");
         }
         
     }
 
+    public void PrepareForNewScene()
+    {
+        gameController.killCount = chordPoints;
+        gameController.hitPoints = HP;
+    }
     public void Heal()
     {
         if (HP < 5)

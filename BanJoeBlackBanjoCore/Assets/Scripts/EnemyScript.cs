@@ -42,6 +42,7 @@ public class EnemyScript : MonoBehaviour
     private bool paralyzed = false;
     private bool isTargetingPlayer = true;
     private bool beFriended = false;
+    [SerializeField] private Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -110,6 +111,7 @@ public class EnemyScript : MonoBehaviour
                     if (hit.transform.gameObject.layer == 6)
                     {
                         agent.speed = 0;
+                        animator.SetBool("isWalking", false);
                         transform.LookAt(player.position);
                         if (!playedMelodyQueue)
                         {
@@ -122,6 +124,7 @@ public class EnemyScript : MonoBehaviour
                 {
                     playedMelodyQueue = false;
                     agent.speed = speed;
+                    animator.SetBool("isWalking", true);
                 }
             }
 
@@ -132,6 +135,7 @@ public class EnemyScript : MonoBehaviour
 
                 if (caerl && !lastBool)
                 {
+                    animator.SetTrigger("strum");
                     audioSource.PlayOneShot(globalSoundQueue[0]);
                     globalSoundQueue.RemoveAt(0);
                     particle.startColor = globalInstumentController.colors[noteNames[0]];
@@ -144,7 +148,8 @@ public class EnemyScript : MonoBehaviour
                         Vector3 P2E = transform.position - player.position;
                         Vector3 push = P2E.normalized * moveBackDistance;
                         agent.SetDestination(transform.position+push);
-                        agent.speed = 3;
+                        agent.speed = speed;
+                        animator.SetBool("isWalking", true);
                     }
 
                 }

@@ -71,7 +71,7 @@ public class InstumentController : MonoBehaviour
 
     private omniscient gameController;
 
-    
+    [SerializeField] private Animator animator;
     void Start()
     {
         pulseDeltaTime = 60 / BPM;
@@ -106,6 +106,7 @@ public class InstumentController : MonoBehaviour
                 particle.Play();
                 audioSource.clip = banjoSFX[0];
                 audioSource.PlayOneShot(banjoSFX[0]);
+                animator.SetTrigger("Strum");
             }
             if (Input.GetKeyDown("i"))
             {
@@ -115,6 +116,7 @@ public class InstumentController : MonoBehaviour
                 particle.Play();
                 audioSource.clip = banjoSFX[1];
                 audioSource.PlayOneShot(banjoSFX[1]);
+                animator.SetTrigger("Strum");
             }
             if (Input.GetKeyDown("o"))
             {
@@ -124,6 +126,7 @@ public class InstumentController : MonoBehaviour
                 particle.Play();
                 audioSource.clip = banjoSFX[2];
                 audioSource.PlayOneShot(banjoSFX[2]);
+                animator.SetTrigger("Strum");
             }
             if (Input.GetKeyDown("p"))
             {
@@ -133,6 +136,7 @@ public class InstumentController : MonoBehaviour
                 particle.Play();
                 audioSource.clip = banjoSFX[3];
                 audioSource.PlayOneShot(banjoSFX[3]);
+                animator.SetTrigger("Strum");
             }
             if (Input.GetKeyDown("j"))
             {
@@ -142,6 +146,7 @@ public class InstumentController : MonoBehaviour
                 particle.Play();
                 audioSource.clip = banjoSFX[4];
                 audioSource.PlayOneShot(banjoSFX[4]);
+                animator.SetTrigger("Strum");
             }
             if (Input.GetKeyDown("k"))
             {
@@ -151,6 +156,7 @@ public class InstumentController : MonoBehaviour
                 particle.Play();
                 audioSource.clip = banjoSFX[5];
                 audioSource.PlayOneShot(banjoSFX[5]);
+                animator.SetTrigger("Strum");
             }
             if (Input.GetKeyDown("l"))
             {
@@ -160,6 +166,7 @@ public class InstumentController : MonoBehaviour
                 particle.Play();
                 audioSource.clip = banjoSFX[6];
                 audioSource.PlayOneShot(banjoSFX[6]);
+                animator.SetTrigger("Strum");
             }
             if (Input.GetKeyDown(KeyCode.Semicolon))
             {
@@ -169,6 +176,7 @@ public class InstumentController : MonoBehaviour
                 particle.Play();
                 audioSource.clip = banjoSFX[7];
                 audioSource.PlayOneShot(banjoSFX[7]);
+                animator.SetTrigger("Strum");
             }
 
             
@@ -230,9 +238,11 @@ public class InstumentController : MonoBehaviour
                     {
                         if (coolDowns[j] <= 0)
                         {
+                            
                             player.pendingAction = (ActionType)j + 1;
                             coolDowns[j] = coolDownValues[j];
                             audioSource.PlayOneShot(chordSFX[j]);
+                            
                         }
                     }
                     i++;
