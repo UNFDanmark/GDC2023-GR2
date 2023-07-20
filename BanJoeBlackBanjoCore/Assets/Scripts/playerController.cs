@@ -152,13 +152,17 @@ public class playerController : MonoBehaviour
         if (HP <= 0)
         {
             
-            gameController.killCount = chordPoints;
-            gameController.hitPoints = HP;
+            PrepareForNewScene();
             SceneManager.LoadScene("DeathScreen");
         }
         
     }
 
+    public void PrepareForNewScene()
+    {
+        gameController.killCount = chordPoints;
+        gameController.hitPoints = HP;
+    }
     public void Heal()
     {
         if (HP < 5)
